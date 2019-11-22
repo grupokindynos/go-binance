@@ -383,7 +383,7 @@ func (as *apiService) MyTrades(mtr MyTradesRequest) ([]*Trade, error) {
 		return nil, as.handleError(textRes)
 	}
 
-	rawTrades := []struct {
+	var rawTrades []struct {
 		ID              int64   `json:"id"`
 		Price           string  `json:"price"`
 		Qty             string  `json:"qty"`
@@ -393,7 +393,7 @@ func (as *apiService) MyTrades(mtr MyTradesRequest) ([]*Trade, error) {
 		IsBuyer         bool    `json:"isBuyer"`
 		IsMaker         bool    `json:"isMaker"`
 		IsBestMatch     bool    `json:"isBestMatch"`
-	}{}
+	}
 	if err := json.Unmarshal(textRes, &rawTrades); err != nil {
 		return nil, errors.Wrap(err, "rawTrades unmarshal failed")
 	}
@@ -598,6 +598,39 @@ func (as *apiService) WithdrawHistory(hr HistoryRequest) ([]*Withdrawal, error) 
 	}
 
 	return wc, nil
+}
+
+func (as *apiService)DepositAddress(ar AddressRequest) (*DepositAddress, error) {
+	params := make(map[string]string)
+	params["timestamp"] = strconv.FormatInt(unixMillis(ar.Timestamp), 10)
+	if ar.Asset != "" {
+		params["asset"] = ar.Asset
+	}
+	if ar.Status != false {
+		params["status"] = strconv.FormatBool(ar.Status)
+	}
+	if ar.RecvWindow != 0 {
+		params["recvWindow"] = strconv.FormatInt(recvWindow(ar.RecvWindow), 10)
+	}
+
+	res, err := as.request("GET", "/wapi/v3/depositAddress.html", params, true, true)
+	if err != nil {
+		return nil, err
+	}
+	textRes, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to read response from depositHistory.get")
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, as.handleError(textRes)
+	}
+	var depositAddress *DepositAddress
+	if err := json.Unmarshal(textRes, &depositAddress); err != nil {
+		return nil, errors.Wrap(err, "depositAddress unmarshal failed")
+	}
+	return depositAddress, nil
 }
 
 func executedOrderFromRaw(reo *rawExecutedOrder) (*ExecutedOrder, error) {

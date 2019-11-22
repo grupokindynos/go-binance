@@ -487,6 +487,26 @@ func (b *binance) WithdrawHistory(hr HistoryRequest) ([]*Withdrawal, error) {
 	return b.Service.WithdrawHistory(hr)
 }
 
+// Request Deposit Address
+type AddressRequest struct {
+	Asset		string
+	Status 		bool
+	RecvWindow 	time.Duration
+	Timestamp 	time.Time
+}
+
+// Address Request Response
+type DepositAddress struct {
+	Address    string `json:"address"`
+	Success    bool   `json:"success"`
+	AddressTag string `json:"addressTag"`
+	Asset      string `json:"asset"`
+}
+
+// Retrieves a deposit address for a given asset.
+func (b *binance) DepositAddress(ar AddressRequest) (*DepositAddress, error) {
+	return b.Service.DepositAddress(ar)
+}
 // Stream represents stream information.
 //
 // Read web docs to get more information about using streams.
