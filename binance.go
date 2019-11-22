@@ -54,6 +54,8 @@ type Binance interface {
 	DepositHistory(hr HistoryRequest) ([]*Deposit, error)
 	// WithdrawHistory lists withdraw data.
 	WithdrawHistory(hr HistoryRequest) ([]*Withdrawal, error)
+	// DepositAddress fetches a deposit address for account funding
+	DepositAddress(ar AddressRequest) (*DepositAddress, error)
 
 	// StartUserDataStream starts stream and returns Stream with ListenKey.
 	StartUserDataStream() (*Stream, error)
