@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"strconv"
 
 	"github.com/pkg/errors"
@@ -607,14 +608,15 @@ func (as *apiService)DepositAddress(ar AddressRequest) (*DepositAddress, error) 
 	if ar.Asset != "" {
 		params["asset"] = ar.Asset
 	}
-	if ar.Status != false {
+	/*f ar.Status != false {
 		params["status"] = strconv.FormatBool(ar.Status)
 	}
 	if ar.RecvWindow != 0 {
 		params["recvWindow"] = strconv.FormatInt(recvWindow(ar.RecvWindow), 10)
-	}
+	}*/
+	fmt.Println("Params: ", params)
 
-	res, err := as.request("GET", "/wapi/v3/depositAddress.html", params, true, true)
+	res, err := as.request(http.MethodGet, "/wapi/v3/depositAddress.html", params, true, true)
 	if err != nil {
 		return nil, err
 	}

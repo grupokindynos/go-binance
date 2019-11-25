@@ -492,8 +492,8 @@ func (b *binance) WithdrawHistory(hr HistoryRequest) ([]*Withdrawal, error) {
 // Request Deposit Address
 type AddressRequest struct {
 	Asset		string
-	Status 		bool
-	RecvWindow 	time.Duration
+	//Status 		bool
+	//RecvWindow 	time.Duration
 	Timestamp 	time.Time
 }
 
