@@ -616,7 +616,7 @@ func (as *apiService)DepositAddress(ar AddressRequest) (*DepositAddress, error) 
 	}*/
 	fmt.Println("Params: ", params)
 
-	res, err := as.request(http.MethodGet, "/wapi/v1/depositAddress.html", params, true, true)
+	res, err := as.request(http.MethodGet, "/wapi/v3/depositAddress.html", params, true, true)
 	if err != nil {
 		return nil, err
 	}
