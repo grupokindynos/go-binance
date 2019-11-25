@@ -628,6 +628,7 @@ func (as *apiService)DepositAddress(ar AddressRequest) (*DepositAddress, error) 
 	if res.StatusCode != 200 {
 		return nil, as.handleError(textRes)
 	}
+	fmt.Println(string(textRes))
 	var depositAddress *DepositAddress
 	if err := json.Unmarshal(textRes, &depositAddress); err != nil {
 		return nil, errors.Wrap(err, "depositAddress unmarshal failed")
