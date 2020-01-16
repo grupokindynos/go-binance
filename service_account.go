@@ -446,7 +446,7 @@ func (as *apiService) Withdraw(wr WithdrawRequest) (*WithdrawResult, error) {
 		params["name"] = wr.Name
 	}
 
-	res, err := as.request("POST", "wapi/v1/withdraw.html", params, true, true)
+	res, err := as.request("POST", "wapi/v3/withdraw.html", params, true, true)
 	if err != nil {
 		return nil, err
 	}
@@ -602,7 +602,7 @@ func (as *apiService) WithdrawHistory(hr HistoryRequest) ([]*Withdrawal, error) 
 	return wc, nil
 }
 
-func (as *apiService)DepositAddress(ar AddressRequest) (*DepositAddress, error) {
+func (as *apiService) DepositAddress(ar AddressRequest) (*DepositAddress, error) {
 	params := make(map[string]string)
 	params["timestamp"] = strconv.FormatInt(unixMillis(ar.Timestamp), 10)
 	if ar.Asset != "" {
