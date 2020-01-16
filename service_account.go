@@ -463,6 +463,7 @@ func (as *apiService) Withdraw(wr WithdrawRequest) (*WithdrawResult, error) {
 	rawResult := struct {
 		Msg     string `json:"msg"`
 		Success bool   `json:"success"`
+		Id      string `json:"id"`
 	}{}
 	if err := json.Unmarshal(textRes, &rawResult); err != nil {
 		return nil, errors.Wrap(err, "rawTrades unmarshal failed")
@@ -471,6 +472,7 @@ func (as *apiService) Withdraw(wr WithdrawRequest) (*WithdrawResult, error) {
 	return &WithdrawResult{
 		Msg:     rawResult.Msg,
 		Success: rawResult.Success,
+		Id:      rawResult.Id,
 	}, nil
 }
 func (as *apiService) DepositHistory(hr HistoryRequest) ([]*Deposit, error) {
@@ -507,16 +509,16 @@ func (as *apiService) DepositHistory(hr HistoryRequest) ([]*Deposit, error) {
 	}
 
 	rawDepositHistory := struct {
-			DepositList []struct {
-				InsertTime int64   `json:"insertTime"`
-				Amount     float64 `json:"amount"`
-				Asset      string  `json:"asset"`
-				Address    string  `json:"address"`
-				TxID       string  `json:"txId"`
-				Status     int     `json:"status"`
-				AddressTag string  `json:"addressTag,omitempty"`
-			} `json:"depositList"`
-			Success bool `json:"success"`
+		DepositList []struct {
+			InsertTime int64   `json:"insertTime"`
+			Amount     float64 `json:"amount"`
+			Asset      string  `json:"asset"`
+			Address    string  `json:"address"`
+			TxID       string  `json:"txId"`
+			Status     int     `json:"status"`
+			AddressTag string  `json:"addressTag,omitempty"`
+		} `json:"depositList"`
+		Success bool `json:"success"`
 	}{}
 
 	if err := json.Unmarshal(textRes, &rawDepositHistory); err != nil {
@@ -534,8 +536,8 @@ func (as *apiService) DepositHistory(hr HistoryRequest) ([]*Deposit, error) {
 			Amount:     d.Amount,
 			Asset:      d.Asset,
 			Status:     d.Status,
-			Address: 	d.Address,
-			TxID: 		d.TxID,
+			Address:    d.Address,
+			TxID:       d.TxID,
 			AddressTag: d.AddressTag,
 		})
 	}

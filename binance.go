@@ -444,6 +444,7 @@ type WithdrawRequest struct {
 type WithdrawResult struct {
 	Success bool
 	Msg     string
+	Id      string
 }
 
 // Withdraw executes withdrawal.
@@ -494,10 +495,10 @@ func (b *binance) WithdrawHistory(hr HistoryRequest) ([]*Withdrawal, error) {
 
 // Request Deposit Address
 type AddressRequest struct {
-	Asset		string
+	Asset string
 	//Status 		bool
 	//RecvWindow 	time.Duration
-	Timestamp 	time.Time
+	Timestamp time.Time
 }
 
 // Address Request Response
@@ -512,6 +513,7 @@ type DepositAddress struct {
 func (b *binance) DepositAddress(ar AddressRequest) (*DepositAddress, error) {
 	return b.Service.DepositAddress(ar)
 }
+
 // Stream represents stream information.
 //
 // Read web docs to get more information about using streams.
