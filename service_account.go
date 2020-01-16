@@ -492,7 +492,7 @@ func (as *apiService) DepositHistory(hr HistoryRequest) ([]*Deposit, error) {
 		params["recvWindow"] = strconv.FormatInt(recvWindow(hr.RecvWindow), 10)
 	}
 
-	res, err := as.request("POST", "wapi/v1/getDepositHistory.html", params, true, true)
+	res, err := as.request("POST", "wapi/v3/depositHistory.html", params, true, true)
 	if err != nil {
 		return nil, err
 	}
@@ -507,14 +507,18 @@ func (as *apiService) DepositHistory(hr HistoryRequest) ([]*Deposit, error) {
 	}
 
 	rawDepositHistory := struct {
-		DepositList []struct {
-			InsertTime float64 `json:"insertTime"`
-			Amount     float64 `json:"amount"`
-			Asset      string  `json:"asset"`
-			Status     int     `json:"status"`
-		}
-		Success bool `json:"success"`
+			DepositList []struct {
+				InsertTime int64   `json:"insertTime"`
+				Amount     float64 `json:"amount"`
+				Asset      string  `json:"asset"`
+				Address    string  `json:"address"`
+				TxID       string  `json:"txId"`
+				Status     int     `json:"status"`
+				AddressTag string  `json:"addressTag,omitempty"`
+			} `json:"depositList"`
+			Success bool `json:"success"`
 	}{}
+
 	if err := json.Unmarshal(textRes, &rawDepositHistory); err != nil {
 		return nil, errors.Wrap(err, "rawDepositHistory unmarshal failed")
 	}
@@ -530,11 +534,15 @@ func (as *apiService) DepositHistory(hr HistoryRequest) ([]*Deposit, error) {
 			Amount:     d.Amount,
 			Asset:      d.Asset,
 			Status:     d.Status,
+			Address: 	d.Address,
+			TxID: 		d.TxID,
+			AddressTag: d.AddressTag,
 		})
 	}
 
 	return dc, nil
 }
+
 func (as *apiService) WithdrawHistory(hr HistoryRequest) ([]*Withdrawal, error) {
 	params := make(map[string]string)
 	params["timestamp"] = strconv.FormatInt(unixMillis(hr.Timestamp), 10)

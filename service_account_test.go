@@ -208,12 +208,12 @@ func TestDepositHistory(t *testing.T) {
 		RecvWindow: 1 * time.Second,
 		Timestamp:  time.Now(),
 	}
-	dhc := []*binance.Deposit{}
+	var dhc []*binance.Deposit
 
 	binanceService.On("DepositHistory", hr).Return(dhc, nil)
-	dhc_r, err := b.DepositHistory(hr)
+	dhcR, err := b.DepositHistory(hr)
 	assert.Nil(t, err)
-	assert.Equal(t, dhc, dhc_r)
+	assert.Equal(t, dhc, dhcR)
 }
 
 func TestWithdrawHistory(t *testing.T) {
