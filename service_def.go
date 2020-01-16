@@ -1,6 +1,7 @@
 package binance
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"net/http"
@@ -84,6 +85,8 @@ func (as *apiService) request(method string, endpoint string, params map[string]
 		Transport: transport,
 	}
 
+	var signature string
+
 	url := fmt.Sprintf("%s/%s", as.URL, endpoint)
 	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
@@ -100,9 +103,27 @@ func (as *apiService) request(method string, endpoint string, params map[string]
 	}
 	if sign {
 		level.Debug(as.Logger).Log("queryString", q.Encode())
-		q.Add("signature", as.Signer.Sign([]byte(q.Encode())))
+		signature = as.Signer.Sign([]byte(q.Encode()))
 		level.Debug(as.Logger).Log("signature", as.Signer.Sign([]byte(q.Encode())))
 	}
+
+	if method == "POST" {
+		req, err = http.NewRequest(method, url, bytes.NewBuffer([]byte(signature)))
+		if err != nil {
+			return nil, errors.Wrap(err, "unable to create request")
+		}
+		req.WithContext(as.Ctx)
+
+		q := req.URL.Query()
+		for key, val := range params {
+			q.Add(key, val)
+		}
+		if apiKey {
+			req.Header.Add("X-MBX-APIKEY", as.APIKey)
+		}
+	}
+	q.Add("signature", signature)
+
 	req.URL.RawQuery = q.Encode()
 
 	resp, err := client.Do(req)
