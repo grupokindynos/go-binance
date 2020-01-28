@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/pkg/errors"
 )
@@ -527,10 +528,7 @@ func (as *apiService) DepositHistory(hr HistoryRequest) ([]*Deposit, error) {
 
 	var dc []*Deposit
 	for _, d := range rawDepositHistory.DepositList {
-		t, err := timeFromUnixTimestampFloat(d.InsertTime)
-		if err != nil {
-			return nil, err
-		}
+		t := time.Unix(d.InsertTime, 0)
 		dc = append(dc, &Deposit{
 			InsertTime: t,
 			Amount:     d.Amount,
