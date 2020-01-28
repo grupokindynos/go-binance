@@ -130,3 +130,56 @@ func (as *apiService) request(method string, endpoint string, params map[string]
 	}
 	return resp, nil
 }
+
+func (as *apiService) apiRequest(method string, endpoint string, params map[string]string,
+	apiKey bool, sign bool) (*http.Response, error) {
+	transport := &http.Transport{}
+	client := &http.Client{
+		Transport: transport,
+	}
+
+	var signature string
+
+	url := fmt.Sprintf("%s/%s", "https://api.binance.com", endpoint)
+	req, err := http.NewRequest(method, url, nil)
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to create request")
+	}
+	req.WithContext(as.Ctx)
+
+	q := req.URL.Query()
+	for key, val := range params {
+		q.Add(key, val)
+	}
+	if apiKey {
+		req.Header.Add("X-MBX-APIKEY", as.APIKey)
+	}
+	if sign {
+		level.Debug(as.Logger).Log("queryString", q.Encode())
+		signature = as.Signer.Sign([]byte(q.Encode()))
+		level.Debug(as.Logger).Log("signature", as.Signer.Sign([]byte(q.Encode())))
+	}
+
+	if method == "POST" {
+		req, err = http.NewRequest(method, url, bytes.NewBuffer([]byte(signature)))
+		if err != nil {
+			return nil, errors.Wrap(err, "unable to create request")
+		}
+		req.WithContext(as.Ctx)
+
+		q := req.URL.Query()
+		for key, val := range params {
+			q.Add(key, val)
+		}
+		if apiKey {
+			req.Header.Add("X-MBX-APIKEY", as.APIKey)
+		}
+	}
+	req.URL.RawQuery = q.Encode() + "&signature=" + signature
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
