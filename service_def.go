@@ -122,9 +122,7 @@ func (as *apiService) request(method string, endpoint string, params map[string]
 			req.Header.Add("X-MBX-APIKEY", as.APIKey)
 		}
 	}
-	q.Add("signature", signature)
-
-	req.URL.RawQuery = q.Encode()
+	req.URL.RawQuery = q.Encode() + "&signature=" + signature
 
 	resp, err := client.Do(req)
 	if err != nil {
