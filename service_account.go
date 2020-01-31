@@ -495,7 +495,7 @@ func (as *apiService) DepositHistory(hr HistoryRequest) ([]*Deposit, error) {
 		params["recvWindow"] = strconv.FormatInt(recvWindow(hr.RecvWindow), 10)
 	}
 
-	res, err := as.apiRequest("GET", "wapi/v3/depositHistory.html", params, true, true)
+	res, err := as.request("GET", "wapi/v3/depositHistory.html", params, true, true)
 	if err != nil {
 		return nil, err
 	}
