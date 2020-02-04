@@ -9,6 +9,9 @@ type OrderType string
 // OrderSide represents order side enum.
 type OrderSide string
 
+// OrderResponse represents order response type enum.
+type OrderResponse string
+
 var (
 	StatusNew             = OrderStatus("NEW")
 	StatusPartiallyFilled = OrderStatus("PARTIALLY_FILLED")
@@ -23,4 +26,8 @@ var (
 
 	SideBuy  = OrderSide("BUY")
 	SideSell = OrderSide("SELL")
+
+	RespTypeACK    = OrderResponse("ACK")
+	RespTypeResult = OrderResponse("RESULT")
+	RespTypeFull   = OrderResponse("FULL")
 )
