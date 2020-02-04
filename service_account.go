@@ -12,19 +12,20 @@ import (
 )
 
 type rawExecutedOrder struct {
-	Symbol        string  `json:"symbol"`
-	OrderID       int     `json:"orderId"`
-	ClientOrderID string  `json:"clientOrderId"`
-	Price         string  `json:"price"`
-	OrigQty       string  `json:"origQty"`
-	ExecutedQty   string  `json:"executedQty"`
-	Status        string  `json:"status"`
-	TimeInForce   string  `json:"timeInForce"`
-	Type          string  `json:"type"`
-	Side          string  `json:"side"`
-	StopPrice     string  `json:"stopPrice"`
-	IcebergQty    string  `json:"icebergQty"`
-	Time          float64 `json:"time"`
+	Symbol              string  `json:"symbol"`
+	OrderID             int     `json:"orderId"`
+	ClientOrderID       string  `json:"clientOrderId"`
+	Price               string  `json:"price"`
+	OrigQty             string  `json:"origQty"`
+	ExecutedQty         string  `json:"executedQty"`
+	Status              string  `json:"status"`
+	TimeInForce         string  `json:"timeInForce"`
+	Type                string  `json:"type"`
+	Side                string  `json:"side"`
+	StopPrice           string  `json:"stopPrice"`
+	IcebergQty          string  `json:"icebergQty"`
+	CummulativeQuoteQty float64 `json:"cummulativeQuoteQty"`
+	Time                float64 `json:"time"`
 }
 
 func (as *apiService) NewOrder(or NewOrderRequest) (*ProcessedOrder, error) {
@@ -33,6 +34,10 @@ func (as *apiService) NewOrder(or NewOrderRequest) (*ProcessedOrder, error) {
 	params["side"] = string(or.Side)
 	params["type"] = string(or.Type)
 	params["timestamp"] = strconv.FormatInt(unixMillis(or.Timestamp), 10)
+
+	if or.newOrderRespType != "" {
+		params["newOrderRespType"] = or.newOrderRespType
+	}
 	if or.Quantity != 0 {
 		params["quantity"] = strconv.FormatFloat(or.Quantity, 'f', -1, 64)
 	}

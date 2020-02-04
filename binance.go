@@ -267,6 +267,7 @@ type NewOrderRequest struct {
 	NewClientOrderID string
 	StopPrice        float64
 	IcebergQty       float64
+	newOrderRespType string
 	Timestamp        time.Time
 }
 
@@ -299,19 +300,20 @@ type QueryOrderRequest struct {
 
 // ExecutedOrder represents data about executed order.
 type ExecutedOrder struct {
-	Symbol        string
-	OrderID       int
-	ClientOrderID string
-	Price         float64
-	OrigQty       float64
-	ExecutedQty   float64
-	Status        OrderStatus
-	TimeInForce   TimeInForce
-	Type          OrderType
-	Side          OrderSide
-	StopPrice     float64
-	IcebergQty    float64
-	Time          time.Time
+	Symbol              string
+	OrderID             int
+	ClientOrderID       string
+	Price               float64
+	OrigQty             float64
+	ExecutedQty         float64
+	Status              OrderStatus
+	TimeInForce         TimeInForce
+	Type                OrderType
+	Side                OrderSide
+	StopPrice           float64
+	IcebergQty          float64
+	CummulativeQuoteQty float64
+	Time                time.Time
 }
 
 // QueryOrder returns data about existing order.
