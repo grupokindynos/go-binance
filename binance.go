@@ -267,7 +267,7 @@ type NewOrderRequest struct {
 	NewClientOrderID string
 	StopPrice        float64
 	IcebergQty       float64
-	newOrderRespType string
+	NewOrderRespType OrderResponse
 	Timestamp        time.Time
 }
 
@@ -312,7 +312,7 @@ type ExecutedOrder struct {
 	Side                OrderSide
 	StopPrice           float64
 	IcebergQty          float64
-	CummulativeQuoteQty float64
+	CummulativeQuoteQty OrderResponse
 	Time                time.Time
 }
 
