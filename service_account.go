@@ -35,8 +35,8 @@ func (as *apiService) NewOrder(or NewOrderRequest) (*ProcessedOrder, error) {
 	params["type"] = string(or.Type)
 	params["timestamp"] = strconv.FormatInt(unixMillis(or.Timestamp), 10)
 
-	if or.newOrderRespType != "" {
-		params["newOrderRespType"] = or.newOrderRespType
+	if or.NewOrderRespType != "" {
+		params["newOrderRespType"] = string(or.NewOrderRespType)
 	}
 	if or.Quantity != 0 {
 		params["quantity"] = strconv.FormatFloat(or.Quantity, 'f', -1, 64)
