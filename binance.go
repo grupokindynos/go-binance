@@ -312,7 +312,7 @@ type ExecutedOrder struct {
 	Side                OrderSide
 	StopPrice           float64
 	IcebergQty          float64
-	CummulativeQuoteQty OrderResponse
+	CummulativeQuoteQty float64
 	Time                time.Time
 }
 
