@@ -482,6 +482,7 @@ func (b *binance) DepositHistory(hr HistoryRequest) ([]*Deposit, error) {
 
 // Withdrawal represents withdrawal data.
 type Withdrawal struct {
+	Id        string
 	Amount    float64
 	Address   string
 	TxID      string
