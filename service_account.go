@@ -24,7 +24,7 @@ type rawExecutedOrder struct {
 	Side                string  `json:"side"`
 	StopPrice           string  `json:"stopPrice"`
 	IcebergQty          string  `json:"icebergQty"`
-	CummulativeQuoteQty float64 `json:"cummulativeQuoteQty"`
+	CummulativeQuoteQty string  `json:"cummulativeQuoteQty"`
 	Time                float64 `json:"time"`
 }
 
@@ -675,24 +675,29 @@ func executedOrderFromRaw(reo *rawExecutedOrder) (*ExecutedOrder, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot parse Order.IcebergQty")
 	}
+	quoteQty, err := strconv.ParseFloat(reo.CummulativeQuoteQty, 64)
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot parse Order.CummulativeQuoteQty")
+	}
 	t, err := timeFromUnixTimestampFloat(reo.Time)
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot parse Order.CloseTime")
 	}
 
 	return &ExecutedOrder{
-		Symbol:        reo.Symbol,
-		OrderID:       reo.OrderID,
-		ClientOrderID: reo.ClientOrderID,
-		Price:         price,
-		OrigQty:       origQty,
-		ExecutedQty:   execQty,
-		Status:        OrderStatus(reo.Status),
-		TimeInForce:   TimeInForce(reo.TimeInForce),
-		Type:          OrderType(reo.Type),
-		Side:          OrderSide(reo.Side),
-		StopPrice:     stopPrice,
-		IcebergQty:    icebergQty,
-		Time:          t,
+		Symbol:              reo.Symbol,
+		OrderID:             reo.OrderID,
+		ClientOrderID:       reo.ClientOrderID,
+		Price:               price,
+		OrigQty:             origQty,
+		ExecutedQty:         execQty,
+		Status:              OrderStatus(reo.Status),
+		TimeInForce:         TimeInForce(reo.TimeInForce),
+		Type:                OrderType(reo.Type),
+		Side:                OrderSide(reo.Side),
+		StopPrice:           stopPrice,
+		IcebergQty:          icebergQty,
+		CummulativeQuoteQty: quoteQty,
+		Time:                t,
 	}, nil
 }
