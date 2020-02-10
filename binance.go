@@ -513,7 +513,7 @@ type DepositAddress struct {
 	Asset      string `json:"asset"`
 }
 
-type ExchangeSymbols struct {
+type ExSymbols struct {
 	Symbol                     string        `json:"symbol"`
 	Status                     string        `json:"status"`
 	BaseAsset                  string        `json:"baseAsset"`
@@ -532,12 +532,12 @@ type ExchangeSymbols struct {
 }
 
 // exchangeInfo endpoint response
-type ExchangeInfo struct {
-	Timezone        string            `json:"timezone"`
-	ServerTime      int64             `json:"serverTime"`
-	RateLimits      []struct{}        `json:"rateLimits"`
-	ExchangeFilters []interface{}     `json:"exchangeFilters"`
-	Symbols         []ExchangeSymbols `json:"symbols"`
+type ExInfo struct {
+	Timezone        string        `json:"timezone"`
+	ServerTime      int64         `json:"serverTime"`
+	RateLimits      []struct{}    `json:"rateLimits"`
+	ExchangeFilters []interface{} `json:"exchangeFilters"`
+	Symbols         []ExSymbols   `json:"symbols"`
 }
 
 // avgPrice endpoint response
