@@ -30,6 +30,10 @@ type Binance interface {
 	TickerAllPrices() ([]*PriceTicker, error)
 	// TickerAllBooks returns tickers for all books.
 	TickerAllBooks() ([]*BookTicker, error)
+	// ExchangeInfo returns general information for all markets.
+	ExchangeInfo() ([]*ExInfo, error)
+	// AveragePrice returns avg price of given market.
+	AveragePrice(symbol string) (*AvgPrice, error)
 
 	// NewOrder places new order and returns ProcessedOrder.
 	NewOrder(nor NewOrderRequest) (*ProcessedOrder, error)
