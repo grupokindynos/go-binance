@@ -531,13 +531,19 @@ type ExchangeSymbols struct {
 	Filters                    []interface{} `json:"filters"`
 }
 
-// Exchange information endpoint response
+// exchangeInfo endpoint response
 type ExchangeInfo struct {
 	Timezone        string            `json:"timezone"`
 	ServerTime      int64             `json:"serverTime"`
 	RateLimits      []struct{}        `json:"rateLimits"`
 	ExchangeFilters []interface{}     `json:"exchangeFilters"`
 	Symbols         []ExchangeSymbols `json:"symbols"`
+}
+
+// avgPrice endpoint response
+type AvgPrice struct {
+	Mins  int    `json:"mins"`
+	Price string `json:"price"`
 }
 
 // Retrieves a deposit address for a given asset.

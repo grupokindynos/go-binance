@@ -502,3 +502,28 @@ func (as *apiService) ExchangeInfo() (ExchangeInfo, error) {
 
 	return exchangeInfo, nil
 }
+
+func (as *apiService) AveragePrice(symbol string) (AvgPrice, error) {
+	var averagePrice AvgPrice
+	params := map[string]string {
+		"symbol": symbol,
+	}
+	res, err := as.request("GET", "/api/v3/avgPrice", params, false, false)
+	if err != nil {
+		return averagePrice, err
+	}
+	textRes, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return averagePrice, err
+	}
+	defer res.Body.Close()
+	if res.StatusCode != 200 {
+		return averagePrice, as.handleError(textRes)
+	}
+
+	if err := json.Unmarshal(textRes, &averagePrice); err != nil {
+		return averagePrice, errors.Wrap(err, "averagePrice unmarshal failed")
+	}
+
+	return averagePrice, nil
+}
