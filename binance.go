@@ -513,6 +513,33 @@ type DepositAddress struct {
 	Asset      string `json:"asset"`
 }
 
+type ExchangeSymbols struct {
+	Symbol                     string        `json:"symbol"`
+	Status                     string        `json:"status"`
+	BaseAsset                  string        `json:"baseAsset"`
+	BaseAssetPrecision         int           `json:"baseAssetPrecision"`
+	QuoteAsset                 string        `json:"quoteAsset"`
+	QuotePrecision             int           `json:"quotePrecision"`
+	BaseCommissionPrecision    int           `json:"baseCommissionPrecision"`
+	QuoteCommissionPrecision   int           `json:"quoteCommissionPrecision"`
+	OrderTypes                 []string      `json:"orderTypes"`
+	IcebergAllowed             bool          `json:"icebergAllowed"`
+	OcoAllowed                 bool          `json:"ocoAllowed"`
+	QuoteOrderQtyMarketAllowed bool          `json:"quoteOrderQtyMarketAllowed"`
+	IsSpotTradingAllowed       bool          `json:"isSpotTradingAllowed"`
+	IsMarginTradingAllowed     bool          `json:"isMarginTradingAllowed"`
+	Filters                    []interface{} `json:"filters"`
+}
+
+// Exchange information endpoint response
+type ExchangeInfo struct {
+	Timezone        string            `json:"timezone"`
+	ServerTime      int64             `json:"serverTime"`
+	RateLimits      []struct{}        `json:"rateLimits"`
+	ExchangeFilters []interface{}     `json:"exchangeFilters"`
+	Symbols         []ExchangeSymbols `json:"symbols"`
+}
+
 // Retrieves a deposit address for a given asset.
 func (b *binance) DepositAddress(ar AddressRequest) (*DepositAddress, error) {
 	return b.Service.DepositAddress(ar)

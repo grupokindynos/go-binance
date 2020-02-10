@@ -480,3 +480,25 @@ func (as *apiService) TickerAllBooks() ([]*BookTicker, error) {
 	}
 	return btc, nil
 }
+
+func (as *apiService) ExchangeInfo() (ExchangeInfo, error) {
+	var exchangeInfo ExchangeInfo
+	res, err := as.request("GET", "/api/v3/exchangeInfo", make(map[string]string), false, false)
+	if err != nil {
+		return exchangeInfo, err
+	}
+	textRes, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return exchangeInfo, err
+	}
+	defer res.Body.Close()
+	if res.StatusCode != 200 {
+		return exchangeInfo, as.handleError(textRes)
+	}
+
+	if err := json.Unmarshal(textRes, &exchangeInfo); err != nil {
+		return exchangeInfo, errors.Wrap(err, "exchangeInfo unmarshal failed")
+	}
+
+	return exchangeInfo, nil
+}
