@@ -481,8 +481,8 @@ func (as *apiService) TickerAllBooks() ([]*BookTicker, error) {
 	return btc, nil
 }
 
-func (as *apiService) ExchangeInfo() (ExInfo, error) {
-	var exchangeInfo ExInfo
+func (as *apiService) ExchangeInfo() (*ExInfo, error) {
+	var exchangeInfo *ExInfo
 	res, err := as.request("GET", "/api/v3/exchangeInfo", make(map[string]string), false, false)
 	if err != nil {
 		return exchangeInfo, err
@@ -503,8 +503,8 @@ func (as *apiService) ExchangeInfo() (ExInfo, error) {
 	return exchangeInfo, nil
 }
 
-func (as *apiService) AveragePrice(symbol string) (AvgPrice, error) {
-	var averagePrice AvgPrice
+func (as *apiService) AveragePrice(symbol string) (*AvgPrice, error) {
+	var averagePrice *AvgPrice
 	params := map[string]string{
 		"symbol": symbol,
 	}

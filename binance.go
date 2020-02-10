@@ -31,7 +31,7 @@ type Binance interface {
 	// TickerAllBooks returns tickers for all books.
 	TickerAllBooks() ([]*BookTicker, error)
 	// ExchangeInfo returns general information for all markets.
-	ExchangeInfo() ([]*ExInfo, error)
+	ExchangeInfo() (*ExInfo, error)
 	// AveragePrice returns avg price of given market.
 	AveragePrice(symbol string) (*AvgPrice, error)
 
@@ -544,10 +544,20 @@ type ExInfo struct {
 	Symbols         []ExSymbols   `json:"symbols"`
 }
 
+// Retrieves general information of available markets
+func (b *binance) ExchangeInfo() (*ExInfo, error) {
+	return b.Service.ExchangeInfo()
+}
+
 // avgPrice endpoint response
 type AvgPrice struct {
 	Mins  int    `json:"mins"`
 	Price string `json:"price"`
+}
+
+// Retrieves avg price of a given market
+func (b *binance) AveragePrice(symbol string) (*AvgPrice, error) {
+	return b.Service.AveragePrice(symbol)
 }
 
 // Retrieves a deposit address for a given asset.
