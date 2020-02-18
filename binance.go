@@ -517,22 +517,29 @@ type DepositAddress struct {
 	Asset      string `json:"asset"`
 }
 
+type Filter struct {
+	FilterType string `json:"filterType"`
+	MinQty     string `json:"minQty"`
+	MaxQty     string `json:"maxQty"`
+	StepSize   string `json:"stepSize"`
+}
+
 type ExSymbols struct {
-	Symbol                     string        `json:"symbol"`
-	Status                     string        `json:"status"`
-	BaseAsset                  string        `json:"baseAsset"`
-	BaseAssetPrecision         int           `json:"baseAssetPrecision"`
-	QuoteAsset                 string        `json:"quoteAsset"`
-	QuotePrecision             int           `json:"quotePrecision"`
-	BaseCommissionPrecision    int           `json:"baseCommissionPrecision"`
-	QuoteCommissionPrecision   int           `json:"quoteCommissionPrecision"`
-	OrderTypes                 []string      `json:"orderTypes"`
-	IcebergAllowed             bool          `json:"icebergAllowed"`
-	OcoAllowed                 bool          `json:"ocoAllowed"`
-	QuoteOrderQtyMarketAllowed bool          `json:"quoteOrderQtyMarketAllowed"`
-	IsSpotTradingAllowed       bool          `json:"isSpotTradingAllowed"`
-	IsMarginTradingAllowed     bool          `json:"isMarginTradingAllowed"`
-	Filters                    []interface{} `json:"filters"`
+	Symbol                     string   `json:"symbol"`
+	Status                     string   `json:"status"`
+	BaseAsset                  string   `json:"baseAsset"`
+	BaseAssetPrecision         int      `json:"baseAssetPrecision"`
+	QuoteAsset                 string   `json:"quoteAsset"`
+	QuotePrecision             int      `json:"quotePrecision"`
+	BaseCommissionPrecision    int      `json:"baseCommissionPrecision"`
+	QuoteCommissionPrecision   int      `json:"quoteCommissionPrecision"`
+	OrderTypes                 []string `json:"orderTypes"`
+	IcebergAllowed             bool     `json:"icebergAllowed"`
+	OcoAllowed                 bool     `json:"ocoAllowed"`
+	QuoteOrderQtyMarketAllowed bool     `json:"quoteOrderQtyMarketAllowed"`
+	IsSpotTradingAllowed       bool     `json:"isSpotTradingAllowed"`
+	IsMarginTradingAllowed     bool     `json:"isMarginTradingAllowed"`
+	Filters                    []Filter `json:"filters"`
 }
 
 // exchangeInfo endpoint response
