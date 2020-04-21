@@ -377,7 +377,7 @@ func (as *apiService) MyTrades(mtr MyTradesRequest) ([]*Trade, error) {
 		params["recvWindow"] = strconv.FormatInt(recvWindow(mtr.RecvWindow), 10)
 	}
 	if mtr.FromID != 0 {
-		params["orderId"] = strconv.FormatInt(mtr.FromID, 10)
+		params["fromId"] = strconv.FormatInt(mtr.FromID, 10)
 	}
 	if mtr.Limit != 0 {
 		params["limit"] = strconv.Itoa(mtr.Limit)
@@ -399,6 +399,7 @@ func (as *apiService) MyTrades(mtr MyTradesRequest) ([]*Trade, error) {
 
 	var rawTrades []struct {
 		ID              int64   `json:"id"`
+		OrderId			int64   `json:"id"`
 		Price           string  `json:"price"`
 		Qty             string  `json:"qty"`
 		Commission      string  `json:"commission"`
@@ -432,6 +433,7 @@ func (as *apiService) MyTrades(mtr MyTradesRequest) ([]*Trade, error) {
 		}
 		tc = append(tc, &Trade{
 			ID:              rt.ID,
+			OrderId:		 rt.OrderId,
 			Price:           price,
 			Qty:             qty,
 			Commission:      commission,
