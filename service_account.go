@@ -399,7 +399,7 @@ func (as *apiService) MyTrades(mtr MyTradesRequest) ([]*Trade, error) {
 
 	var rawTrades []struct {
 		ID              int64   `json:"id"`
-		OrderId			int64   `json:"id"`
+		OrderId			int64   `json:"orderId"`
 		Price           string  `json:"price"`
 		Qty             string  `json:"qty"`
 		Commission      string  `json:"commission"`
