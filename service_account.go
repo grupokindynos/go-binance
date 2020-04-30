@@ -575,7 +575,7 @@ func (as *apiService) WithdrawHistory(hr HistoryRequest) ([]*Withdrawal, error) 
 		params["recvWindow"] = strconv.FormatInt(recvWindow(hr.RecvWindow), 10)
 	}
 
-	res, err := as.request("POST", "wapi/v1/getWithdrawHistory.html", params, true, true)
+	res, err := as.request("GET", "wapi/v3/withdrawHistory.html", params, true, true)
 	if err != nil {
 		return nil, err
 	}
