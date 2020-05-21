@@ -1,14 +1,25 @@
 package binance_test
 
 import (
-	"time"
-
-	"github.com/binance-exchange/go-binance"
+	"github.com/grupokindynos/go-binance"
 	"github.com/stretchr/testify/mock"
+	"time"
 )
 
 type ServiceMock struct {
 	mock.Mock
+}
+
+func (m *ServiceMock) ExchangeInfo() (*binance.ExInfo, error) {
+	panic("implement me")
+}
+
+func (m *ServiceMock) AveragePrice(symbol string) (*binance.AvgPrice, error) {
+	panic("implement me")
+}
+
+func (m *ServiceMock) DepositAddress(ar binance.AddressRequest) (*binance.DepositAddress, error) {
+	panic("implement me")
 }
 
 func (m *ServiceMock) Ping() error {

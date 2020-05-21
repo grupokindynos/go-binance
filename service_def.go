@@ -9,6 +9,7 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/pkg/errors"
+	"moul.io/http2curl"
 )
 
 // Service represents service layer for Binance API.
@@ -109,6 +110,9 @@ func (as *apiService) request(method string, endpoint string, params map[string]
 		level.Debug(as.Logger).Log("signature", as.Signer.Sign([]byte(q.Encode())))
 		req.URL.RawQuery += "&signature=" + signature
 	}
+
+	command, _ := http2curl.GetCurlCommand(req)
+	fmt.Println(command)
 
 	resp, err := client.Do(req)
 	if err != nil {

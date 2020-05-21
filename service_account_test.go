@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/binance-exchange/go-binance"
+	"github.com/grupokindynos/go-binance"
 	"github.com/stretchr/testify/assert"
 )
 
