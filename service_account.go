@@ -2,7 +2,6 @@ package binance
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -399,7 +398,7 @@ func (as *apiService) MyTrades(mtr MyTradesRequest) ([]*Trade, error) {
 
 	var rawTrades []struct {
 		ID              int64   `json:"id"`
-		OrderId			int64   `json:"orderId"`
+		OrderId         int64   `json:"orderId"`
 		Price           string  `json:"price"`
 		Qty             string  `json:"qty"`
 		Commission      string  `json:"commission"`
@@ -433,7 +432,7 @@ func (as *apiService) MyTrades(mtr MyTradesRequest) ([]*Trade, error) {
 		}
 		tc = append(tc, &Trade{
 			ID:              rt.ID,
-			OrderId:		 rt.OrderId,
+			OrderId:         rt.OrderId,
 			Price:           price,
 			Qty:             qty,
 			Commission:      commission,
@@ -637,7 +636,6 @@ func (as *apiService) DepositAddress(ar AddressRequest) (*DepositAddress, error)
 	if ar.RecvWindow != 0 {
 		params["recvWindow"] = strconv.FormatInt(recvWindow(ar.RecvWindow), 10)
 	}*/
-	fmt.Println("Params: ", params)
 
 	res, err := as.request(http.MethodGet, "/wapi/v3/depositAddress.html", params, true, true)
 	if err != nil {
@@ -648,12 +646,10 @@ func (as *apiService) DepositAddress(ar AddressRequest) (*DepositAddress, error)
 		return nil, errors.Wrap(err, "unable to read response from depositHistory.get")
 	}
 	defer res.Body.Close()
-	fmt.Println("DepositAddress Response: ", textRes)
 
 	if res.StatusCode != 200 {
 		return nil, as.handleError(textRes)
 	}
-	fmt.Println(string(textRes))
 	var depositAddress *DepositAddress
 	if err := json.Unmarshal(textRes, &depositAddress); err != nil {
 		return nil, errors.Wrap(err, "depositAddress unmarshal failed")
