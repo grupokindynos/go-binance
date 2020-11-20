@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -480,6 +481,7 @@ func (as *apiService) Withdraw(wr WithdrawRequest) (*WithdrawResult, error) {
 		Id      string `json:"id"`
 	}{}
 	if err := json.Unmarshal(textRes, &rawResult); err != nil {
+		log.Printf("binance::error:withdrawal:: %s", string(textRes))
 		return nil, errors.Wrap(err, "rawTrades unmarshal failed")
 	}
 
