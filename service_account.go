@@ -649,7 +649,7 @@ func (as *apiService) DepositAddress(ar AddressRequest) (*DepositAddress, error)
 		return nil, errors.Wrap(err, "unable to read response from depositHistory.get")
 	}
 	defer res.Body.Close()
-
+	log.Println("DepositAddress Response - ", textRes)
 	if res.StatusCode != 200 {
 		return nil, as.handleError(textRes)
 	}
